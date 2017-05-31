@@ -272,9 +272,18 @@ public class InitActivity extends AppCompatActivity implements GoogleApiClient.C
                         .build();
                 Response response = null;
                 try {
+
                     response = client.newCall(request).execute();
-                    System.out.println("test checktimeeeeeeeee : " + response.body().string());
+                    JSONObject parentObject = new JSONObject(response.body().string());
+
+                    Integer service_start = parentObject.getInt("service_start");
+                    Integer service_end = parentObject.getInt("service_end");
+
+
+                    System.out.println("test checktimeeeeeeeee : " + service_start + ", ends: " + service_end);
                 } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
