@@ -13,12 +13,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.Manifest;
 import com.facebook.AccessToken;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.jadefrh.nightylogin.helpers.ApiFetch;
+import com.jadefrh.nightylogin.helpers.SunTimeHelper;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPut;
@@ -56,7 +58,7 @@ public class InitActivity extends AppCompatActivity implements GoogleApiClient.C
     private GoogleApiClient mGoogleApiClient;
     public static final String MY_PREFS_NAME = "MyPrefsFile";
     TextView fbaccesstoken;
-    private Location mLastLocation;
+    public static Location mLastLocation;
 
     private long UPDATE_INTERVAL = 10 * 1000;  /* 10 secs */
     private long FASTEST_INTERVAL = 2000; /* 2 sec */
@@ -71,7 +73,7 @@ public class InitActivity extends AppCompatActivity implements GoogleApiClient.C
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_init);
         fbaccesstoken = (TextView) findViewById(R.id.fbaccesstoken);
-
+        LoginManager.getInstance().logOut();
         // Create an instance of GoogleAPIClient.
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -248,57 +250,25 @@ public class InitActivity extends AppCompatActivity implements GoogleApiClient.C
             checkTimeWaiting = false;
         }
 
-        new AsyncTask<Void, Void, Void>() {
+        new SunTimeHelper(this) {
             @Override
-            protected Void doInBackground(Void... params) {
+            protected void onPostExecute(long[] longs) {
+                System.out.println("resultats : " + longs[0]);
+                long serviceStart = longs[0];
+                long serviceEnd = longs[1];
+                long currentTime = longs[2];
 
-                SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-                String token = prefs.getString("nighty_access_token", null);
-
-                MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-                RequestBody body = RequestBody.create(JSON, "{\"latitude\": " + mLastLocation.getLatitude() + ", \"longitude\": " + mLastLocation.getLongitude() + "}");
-                System.out.println("latitude : " + mLastLocation.getLatitude() + ", long : " + mLastLocation.getLongitude());
-                OkHttpClient client = new OkHttpClient();
-
-                Request request = new Request.Builder()
-                        .url("http://nighty-develop.ivvp7jqj5r.eu-west-1.elasticbeanstalk.com/api/user/current")
-                        .put(body) //PUT
-                        .addHeader("Authorization", "Bearer " + token)
-                        .build();
-                Response response = null;
-                try {
-
-                    response = client.newCall(request).execute();
-                    JSONObject parentObject = new JSONObject(response.body().string());
-
-                    Long service_start = parentObject.getLong("service_start");
-                    Long service_end = parentObject.getLong("service_end");
-
-                    long currentTime = System.currentTimeMillis() / 1000L;
-
-                    boolean serviceIsOnline = currentTime > service_start && currentTime < service_end;
-                    Intent i;
-                    if (serviceIsOnline){
-                        i = new Intent(InitActivity.this, MoodActivity.class);
-                    } else {
-                        System.out.println("ça rentre dans la boucle offllineeeeeee");
-                        i = new Intent(InitActivity.this, PatienceActivity.class);
-                    }
-                    startActivity(i);
-                    finish();
-
-                    System.out.println("service starts at : " + service_start + ", and ends at : " + service_end);
-                    System.out.println("current time : " + currentTime);
-                    System.out.println("is online ? " + serviceIsOnline);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                boolean serviceIsOnline = currentTime > serviceStart && currentTime < serviceEnd;
+                Intent i;
+                if (serviceIsOnline){
+                    i = new Intent(InitActivity.this, MoodActivity.class);
+                } else {
+                    i = new Intent(InitActivity.this, PatienceActivity.class);
                 }
-
-                return null;
+                startActivity(i);
+                finish();
             }
-        }.execute();
+        };
 
 
     }
