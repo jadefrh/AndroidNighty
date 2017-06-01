@@ -1,5 +1,6 @@
 package com.jadefrh.nightylogin;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -89,7 +90,6 @@ public class InitActivity extends AppCompatActivity implements GoogleApiClient.C
 
                     String nightyTokenAccess = authenticate();
                     storeToken(nightyTokenAccess);
-                    System.out.println("test DEBUG token :" + nightyTokenAccess);
                 }
 
                 checkNightTime();
@@ -232,14 +232,12 @@ public class InitActivity extends AppCompatActivity implements GoogleApiClient.C
     private boolean hasToken() {
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         String token = prefs.getString("nighty_access_token", null);
-        System.out.println("test DEBUG token :" + token);
 
         return token != null;
     }
 
     // checks suntime to know if user can use the application
     private void checkNightTime() {
-        System.out.println("checkNightTime: LA LOCATION: " + mLastLocation);
         String result = "";
 
         // On attends la location
@@ -250,8 +248,6 @@ public class InitActivity extends AppCompatActivity implements GoogleApiClient.C
             checkTimeWaiting = false;
         }
 
-        System.out.println("ON A LA Latitude  : " + mLastLocation.getLatitude() + ", longitude : " + mLastLocation.getLongitude());
-
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
@@ -261,8 +257,7 @@ public class InitActivity extends AppCompatActivity implements GoogleApiClient.C
 
                 MediaType JSON = MediaType.parse("application/json; charset=utf-8");
                 RequestBody body = RequestBody.create(JSON, "{\"latitude\": " + mLastLocation.getLatitude() + ", \"longitude\": " + mLastLocation.getLongitude() + "}");
-
-
+                System.out.println("latitude : " + mLastLocation.getLatitude() + ", long : " + mLastLocation.getLongitude());
                 OkHttpClient client = new OkHttpClient();
 
                 Request request = new Request.Builder()
@@ -276,11 +271,25 @@ public class InitActivity extends AppCompatActivity implements GoogleApiClient.C
                     response = client.newCall(request).execute();
                     JSONObject parentObject = new JSONObject(response.body().string());
 
-                    Integer service_start = parentObject.getInt("service_start");
-                    Integer service_end = parentObject.getInt("service_end");
+                    Long service_start = parentObject.getLong("service_start");
+                    Long service_end = parentObject.getLong("service_end");
 
+                    long currentTime = System.currentTimeMillis() / 1000L;
 
-                    System.out.println("test checktimeeeeeeeee : " + service_start + ", ends: " + service_end);
+                    boolean serviceIsOnline = currentTime > service_start && currentTime < service_end;
+                    Intent i;
+                    if (serviceIsOnline){
+                        i = new Intent(InitActivity.this, MoodActivity.class);
+                    } else {
+                        System.out.println("ça rentre dans la boucle offllineeeeeee");
+                        i = new Intent(InitActivity.this, PatienceActivity.class);
+                    }
+                    startActivity(i);
+                    finish();
+
+                    System.out.println("service starts at : " + service_start + ", and ends at : " + service_end);
+                    System.out.println("current time : " + currentTime);
+                    System.out.println("is online ? " + serviceIsOnline);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {
