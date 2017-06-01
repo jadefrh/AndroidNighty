@@ -73,7 +73,8 @@ public class InitActivity extends AppCompatActivity implements GoogleApiClient.C
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_init);
         fbaccesstoken = (TextView) findViewById(R.id.fbaccesstoken);
-        LoginManager.getInstance().logOut();
+//        LoginManager.getInstance().logOut();
+
         // Create an instance of GoogleAPIClient.
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
