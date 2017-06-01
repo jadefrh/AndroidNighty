@@ -1,5 +1,6 @@
 package com.jadefrh.nightylogin;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -19,6 +20,9 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.jadefrh.nightylogin.helpers.ApiFetch;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.entity.StringEntity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -27,12 +31,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -51,6 +63,8 @@ public class InitActivity extends AppCompatActivity implements GoogleApiClient.C
     private LocationRequest mLocationRequest;
 
     private boolean checkTimeWaiting = false;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +87,7 @@ public class InitActivity extends AppCompatActivity implements GoogleApiClient.C
             protected Void doInBackground(Void... params) {
 
                 if (!hasToken()) {
+
                     String nightyTokenAccess = authenticate();
                     storeToken(nightyTokenAccess);
                 }
@@ -150,7 +165,7 @@ public class InitActivity extends AppCompatActivity implements GoogleApiClient.C
 
         // get Facebook Access Token
 //        fbaccesstoken.setText(token.getToken());
-        System.out.println("FACEBOOK TOKEN: " + token.getToken());
+        //System.out.println("FACEBOOK TOKEN: " + token.getToken());
 
         // POST request to API to get Nighty Access Token
         String url = ApiFetch.API_URL + "/oauth/token";
@@ -190,7 +205,7 @@ public class InitActivity extends AppCompatActivity implements GoogleApiClient.C
             String finalJson = buffer.toString();
             JSONObject parentObject = new JSONObject(finalJson);
             String nightyAccessToken = parentObject.getString("access_token");
-            //System.out.println("testtttttttt : " + nightyAccessToken);
+            System.out.println("Access Token : " + nightyAccessToken);
 
             return nightyAccessToken;
 
@@ -223,7 +238,7 @@ public class InitActivity extends AppCompatActivity implements GoogleApiClient.C
 
     // checks suntime to know if user can use the application
     private void checkNightTime() {
-        System.out.println("checkNightTime: LA LOCATION: " + mLastLocation);
+        String result = "";
 
         // On attends la location
         if (mLastLocation == null) {
@@ -233,17 +248,59 @@ public class InitActivity extends AppCompatActivity implements GoogleApiClient.C
             checkTimeWaiting = false;
         }
 
-        System.out.println("ON A LA LOCATION");
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
 
-        // GET
-//        new ApiFetch("/api/suntime", this) {
-//            @Override
-//            protected void onResult(JSONObject json) {
-//                if (json != null) {
-//                    System.out.println("oki suntime: " + json.toString());
-//                }
-//            }
-//        };
+                SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                String token = prefs.getString("nighty_access_token", null);
+
+                MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+                RequestBody body = RequestBody.create(JSON, "{\"latitude\": " + mLastLocation.getLatitude() + ", \"longitude\": " + mLastLocation.getLongitude() + "}");
+                System.out.println("latitude : " + mLastLocation.getLatitude() + ", long : " + mLastLocation.getLongitude());
+                OkHttpClient client = new OkHttpClient();
+
+                Request request = new Request.Builder()
+                        .url("http://nighty-develop.ivvp7jqj5r.eu-west-1.elasticbeanstalk.com/api/user/current")
+                        .put(body) //PUT
+                        .addHeader("Authorization", "Bearer " + token)
+                        .build();
+                Response response = null;
+                try {
+
+                    response = client.newCall(request).execute();
+                    JSONObject parentObject = new JSONObject(response.body().string());
+
+                    Long service_start = parentObject.getLong("service_start");
+                    Long service_end = parentObject.getLong("service_end");
+
+                    long currentTime = System.currentTimeMillis() / 1000L;
+
+                    boolean serviceIsOnline = currentTime > service_start && currentTime < service_end;
+                    Intent i;
+                    if (serviceIsOnline){
+                        i = new Intent(InitActivity.this, MoodActivity.class);
+                    } else {
+                        System.out.println("ça rentre dans la boucle offllineeeeeee");
+                        i = new Intent(InitActivity.this, PatienceActivity.class);
+                    }
+                    startActivity(i);
+                    finish();
+
+                    System.out.println("service starts at : " + service_start + ", and ends at : " + service_end);
+                    System.out.println("current time : " + currentTime);
+                    System.out.println("is online ? " + serviceIsOnline);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                return null;
+            }
+        }.execute();
+
+
     }
 
     protected void onStart() {
