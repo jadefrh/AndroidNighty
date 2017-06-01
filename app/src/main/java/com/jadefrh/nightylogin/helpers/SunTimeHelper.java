@@ -1,6 +1,13 @@
 package com.jadefrh.nightylogin.helpers;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+
+import com.jadefrh.nightylogin.InitActivity;
+import com.jadefrh.nightylogin.MoodActivity;
+import com.jadefrh.nightylogin.PatienceActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,71 +20,67 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
+import static android.content.Context.MODE_PRIVATE;
+import static com.jadefrh.nightylogin.InitActivity.MY_PREFS_NAME;
+import static com.jadefrh.nightylogin.InitActivity.mLastLocation;
+
 /**
  * Created by astronaught on 28/05/2017.
  */
 
-public abstract class SunTimeHelper extends AsyncTask<String, String, String[]> {
+public abstract class SunTimeHelper extends AsyncTask<Void, Void, long[]> {
 
-    public SunTimeHelper() {
-        execute("https://api.sunrise-sunset.org/json?lat=36.7201600&lng=-4.4203400&date=today");
+    private String token;
+
+    public SunTimeHelper(Context context) {
+
+        // On récupère le Nighty Access Token des Shared Preferences
+        SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, context.MODE_PRIVATE);
+        token = prefs.getString("nighty_access_token", null);
+        execute();
     }
 
     // ce qu'on va faire en fond
     @Override
-    protected String[] doInBackground(String... params) {
-        HttpURLConnection connection = null;
-        BufferedReader reader = null;
+    public long[] doInBackground(Void... params) {
 
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        RequestBody body = RequestBody.create(JSON, "{\"latitude\": " + mLastLocation.getLatitude() + ", \"longitude\": " + mLastLocation.getLongitude() + "}");
+        System.out.println("latitude : " + mLastLocation.getLatitude() + ", long : " + mLastLocation.getLongitude());
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url("http://nighty-develop.ivvp7jqj5r.eu-west-1.elasticbeanstalk.com/api/user/current")
+                .put(body) //PUT
+                .addHeader("Authorization", "Bearer " + token)
+                .build();
+        Response response = null;
         try {
-            URL url = new URL(params[0]);
-            connection = (HttpURLConnection) url.openConnection();
-            connection.connect();
 
-            InputStream stream = connection.getInputStream();
+            response = client.newCall(request).execute();
+            JSONObject parentObject = new JSONObject(response.body().string());
 
-            reader = new BufferedReader(new InputStreamReader(stream));
+            long service_start = parentObject.getLong("service_start");
+            long service_end = parentObject.getLong("service_end");
 
-            StringBuffer buffer = new StringBuffer();
+            long currentTime = System.currentTimeMillis() / 1000L;
 
-            String line = "";
-            while ((line = reader.readLine()) != null) {
-                buffer.append(line);
-            }
-
-            String finalJson = buffer.toString();
-            JSONObject parentObject = new JSONObject(finalJson);
-            JSONObject finalObject = parentObject.getJSONObject("results");
-
-
-            String sunriseTime = finalObject.getString("sunrise");
-            String sunsetTime = finalObject.getString("sunset");
-
-            return new String[] { sunriseTime, sunsetTime };
-
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
+            return new long[]{service_start, service_end, currentTime};
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JSONException e) {
             e.printStackTrace();
-        } finally {
-            if (connection != null) {
-                connection.disconnect();
-            }
-            try {
-                if (reader != null) {
-                    reader.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
         }
 
         return null;
     }
 
     @Override
-    protected abstract void onPostExecute(String[] result);
+    protected abstract void onPostExecute(long[] longs);
 }
