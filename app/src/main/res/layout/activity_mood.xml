@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.jadefrh.nightylogin.MoodActivity">
+    tools:context="com.jadefrh.nightylogin.MoodActivity"
+    android:weightSum="1">
 
     <TextView
         android:id="@+id/mainTitleMood"
@@ -65,20 +66,27 @@
         <HorizontalScrollView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp" >
+            android:layout_marginTop="50dp">
 
             <LinearLayout
+                android:id="@+id/lookingfor_scroll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:id="@+id/lookingfor_scroll">
+                android:orientation="horizontal">
 
             </LinearLayout>
 
         </HorizontalScrollView>
+
+
     </LinearLayout>
 
-
+    <Button
+        android:id="@+id/submitMoods"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Valider"
+        android:layout_weight="0.64" />
 
     <!--<HorizontalScrollView-->
         <!--android:layout_width="wrap_content"-->

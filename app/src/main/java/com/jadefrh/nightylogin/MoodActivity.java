@@ -5,6 +5,7 @@ import android.net.http.RequestQueue;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -23,18 +24,32 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+
 import static com.jadefrh.nightylogin.InitActivity.MY_PREFS_NAME;
+import static com.jadefrh.nightylogin.InitActivity.mLastLocation;
 
 public class MoodActivity extends AppCompatActivity {
 
-    private String token;
-    TextView mainTitleMood;
+
     com.android.volley.RequestQueue queue;
+    private String token;
+
+    TextView mainTitleMood;
+    Button submitMoods;
+
+    int selectedFeeling;
+    int selectedVibe;
+    int selectedLookingFor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +57,13 @@ public class MoodActivity extends AppCompatActivity {
         setContentView(R.layout.activity_mood);
 
         mainTitleMood = (TextView)findViewById(R.id.mainTitleMood);
+        submitMoods = (Button)findViewById(R.id.submitMoods);
 
+        submitMoods.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                checkMoods();
+            }
+        });
 
 
         SharedPreferences prefs = this.getSharedPreferences(MY_PREFS_NAME, this.MODE_PRIVATE);
@@ -87,9 +108,7 @@ public class MoodActivity extends AppCompatActivity {
     private void displayMoods(String moods) {
 
         try {
-            String selectedFeeling = null;
-            String selectedVibe = null;
-            String selectedLookingFor = null;
+
 
             LinearLayout ll_vibe = (LinearLayout) findViewById(R.id.vibe_scroll);
             LinearLayout ll_feeling = (LinearLayout) findViewById(R.id.feeling_scroll);
@@ -99,60 +118,116 @@ public class MoodActivity extends AppCompatActivity {
             JSONArray parentArray = new JSONArray(moods);
             for (int i = 0; i < parentArray.length(); i++) {
 
-                    JSONObject mood = parentArray.getJSONObject(i);
+                    final JSONObject mood = parentArray.getJSONObject(i);
                     String mood_type = mood.getString("type");
 
                 if ( mood_type.equals("vibe") ) {
                     String mood_name = mood.getString("name");
                     String mood_id = mood.getString("id");
 
-                    Button moodButton = new Button(this);
-                    moodButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                    moodButton.setId(Integer.parseInt(mood_id));
-                    moodButton.setText(mood_name);
-                    ll_vibe.addView(moodButton);
+                    final Button moodButtonVibe = new Button(this);
+                    moodButtonVibe.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                    moodButtonVibe.setId(Integer.parseInt(mood_id));
+                    moodButtonVibe.setText(mood_name);
+                    ll_vibe.addView(moodButtonVibe);
 
-                    Button moodButton2 = new Button(this);
-                    moodButton2.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                    moodButton2.setId(Integer.parseInt(mood_id));
-                    moodButton2.setText(mood_name);
-                    ll_vibe.addView(moodButton2);
-
-                    //System.out.println("test de l'id chosen : " + selectedVibe);
+                    moodButtonVibe.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            selectedVibe = moodButtonVibe.getId();
+                        }
+                    });
 
 
                 } else if ( mood_type.equals("feeling") ) {
                     String mood_name = mood.getString("name");
                     String mood_id = mood.getString("id");
 
-                    Button moodButton = new Button(this);
-                    moodButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                    moodButton.setId(Integer.parseInt(mood_id));
-                    moodButton.setText(mood_name);
-                    ll_feeling.addView(moodButton);
+                    final Button moodButtonFeeling = new Button(this);
+                    moodButtonFeeling.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                    moodButtonFeeling.setId(Integer.parseInt(mood_id));
+                    moodButtonFeeling.setText(mood_name);
+                    ll_feeling.addView(moodButtonFeeling);
 
-                    Button moodButton2 = new Button(this);
-                    moodButton2.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                    moodButton2.setId(Integer.parseInt(mood_id));
-                    moodButton2.setText(mood_name);
-                    ll_feeling.addView(moodButton2);
+                    moodButtonFeeling.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            selectedFeeling = moodButtonFeeling.getId();
+                        }
+                    });
 
                 } else if ( mood_type.equals("lookingFor") ) {
                     String mood_name = mood.getString("name");
                     String mood_id = mood.getString("id");
 
-                    Button moodButton = new Button(this);
-                    moodButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                    moodButton.setId(Integer.parseInt(mood_id));
-                    moodButton.setText(mood_name);
-                    ll_lookingfor.addView(moodButton);
+                    final Button moodButtonLookingFor = new Button(this);
+                    moodButtonLookingFor.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                    moodButtonLookingFor.setId(Integer.parseInt(mood_id));
+                    moodButtonLookingFor.setText(mood_name);
+                    ll_lookingfor.addView(moodButtonLookingFor);
+
+                    moodButtonLookingFor.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            selectedLookingFor = moodButtonLookingFor.getId();
+                        }
+                    });
                 }
+
+
             }
+
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
 
+
+    }
+
+
+
+    private void checkMoods() {
+
+// check si tous les selected != 0.
+        if (selectedVibe == 0 || selectedFeeling == 0 || selectedLookingFor == 0 ) {
+            System.out.println("heeeeeeee");
+            return;
+        } else {
+
+            @Override
+            public long[] doInBackground(Void... params) {
+
+                MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+                RequestBody body = RequestBody.create(JSON, "{\"latitude\": " + mLastLocation.getLatitude() + ", \"longitude\": " + mLastLocation.getLongitude() + "}");
+                System.out.println("latitude : " + mLastLocation.getLatitude() + ", long : " + mLastLocation.getLongitude());
+                OkHttpClient client = new OkHttpClient();
+
+                okhttp3.Request request = new okhttp3.Request.Builder()
+                        .url("http://nighty-develop.ivvp7jqj5r.eu-west-1.elasticbeanstalk.com/api/user/current")
+                        .put(body) //PUT
+                        .addHeader("Authorization", "Bearer " + token)
+                        .build();
+                okhttp3.Response response = null;
+                try {
+
+                    response = client.newCall(request).execute();
+                    JSONObject parentObject = new JSONObject(response.body().string());
+
+                    long service_start = parentObject.getLong("service_start");
+                    long service_end = parentObject.getLong("service_end");
+
+                    long currentTime = System.currentTimeMillis() / 1000L;
+
+                    return new long[]{service_start, service_end, currentTime};
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                return null;
+            }
+        }
+        //
 
     }
 
