@@ -193,39 +193,47 @@ public class MoodActivity extends AppCompatActivity {
             return;
         } else {
 
-            @Override
-            public long[] doInBackground(Void... params) {
+            StringRequest putRequest = new StringRequest(Request.Method.PUT, "http://nighty-develop.ivvp7jqj5r.eu-west-1.elasticbeanstalk.com/api/user/current",
+                    new Response.Listener<String>()
+                    {
+                        @Override
+                        public void onResponse(String response) {
+                            // response
+                            Log.d("Response", response);
+                        }
+                    },
+                    new Response.ErrorListener()
+                    {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            // error
+                            Log.d("Error.Response", error.getMessage());
+                        }
+                    }
+            ) {
 
-                MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-                RequestBody body = RequestBody.create(JSON, "{\"latitude\": " + mLastLocation.getLatitude() + ", \"longitude\": " + mLastLocation.getLongitude() + "}");
-                System.out.println("latitude : " + mLastLocation.getLatitude() + ", long : " + mLastLocation.getLongitude());
-                OkHttpClient client = new OkHttpClient();
+                @Override
+                protected Map<String, String> getParams()
+                {
+                    Map<String, String>  params = new HashMap<String, String> ();
+                    params.put("mood_ids[0]", String.valueOf(selectedFeeling));
+                    params.put("mood_ids[1]", String.valueOf(selectedVibe));
+                    params.put("mood_ids[2]", String.valueOf(selectedLookingFor));
+                    params.put("is_online", "true");
 
-                okhttp3.Request request = new okhttp3.Request.Builder()
-                        .url("http://nighty-develop.ivvp7jqj5r.eu-west-1.elasticbeanstalk.com/api/user/current")
-                        .put(body) //PUT
-                        .addHeader("Authorization", "Bearer " + token)
-                        .build();
-                okhttp3.Response response = null;
-                try {
-
-                    response = client.newCall(request).execute();
-                    JSONObject parentObject = new JSONObject(response.body().string());
-
-                    long service_start = parentObject.getLong("service_start");
-                    long service_end = parentObject.getLong("service_end");
-
-                    long currentTime = System.currentTimeMillis() / 1000L;
-
-                    return new long[]{service_start, service_end, currentTime};
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    return params;
                 }
 
-                return null;
-            }
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String,String> params = new HashMap<String, String>();
+                    params.put("Authorization","Bearer " + token);
+                    return params;
+                }
+
+            };
+
+            queue.add(putRequest);
         }
         //
 
