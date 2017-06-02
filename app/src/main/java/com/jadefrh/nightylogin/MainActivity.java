@@ -1,6 +1,7 @@
 package com.jadefrh.nightylogin;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -27,6 +28,11 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
+
+    TextView tv1, tv2, tv3;
+
+    Typeface tf1, tf2, tf3;
+
     TextView txtStatus;
     LoginButton login_button;
     CallbackManager callbackManager;
@@ -44,6 +50,20 @@ public class MainActivity extends AppCompatActivity {
         initializeControls();
         loginWithFB();
         login_button.setReadPermissions(Arrays.asList("public_profile", "email", "user_birthday", "user_friends"));
+
+
+        tv1 = (TextView) findViewById(R.id.txtstatus);
+        tv2 = (TextView) findViewById(R.id.subtitle);
+        tv3 = (TextView) findViewById(R.id.fbwarning);
+
+        tf1 = Typeface.createFromAsset(getAssets(),"fonts/Gotham Rounded Bold.otf");
+        tv1.setTypeface(tf1);
+
+        tf2 = Typeface.createFromAsset(getAssets(),"fonts/SFDisplay-Regular.otf");
+        tv2.setTypeface(tf2);
+
+        tf3 = Typeface.createFromAsset(getAssets(),"fonts/SFDisplay-Regular.otf");
+        tv3.setTypeface(tf3);
 
     }
 
@@ -105,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
     private void initializeControls() {
         callbackManager = CallbackManager.Factory.create();
 
-        txtStatus = (TextView)findViewById(R.id.txtStatus);
+        txtStatus = (TextView)findViewById(R.id.txtstatus);
         login_button = (LoginButton)findViewById(R.id.login_button);
         //custom_login_button = (Button)findViewById(R.id.custom_login_button);
     }

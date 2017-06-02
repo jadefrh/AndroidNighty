@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.Manifest;
 import com.facebook.AccessToken;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -71,6 +72,8 @@ public class InitActivity extends AppCompatActivity implements GoogleApiClient.C
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_init);
         fbaccesstoken = (TextView) findViewById(R.id.fbaccesstoken);
+
+        LoginManager.getInstance().logOut();
 
         // Create an instance of GoogleAPIClient.
         if (mGoogleApiClient == null) {
