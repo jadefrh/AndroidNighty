@@ -33,8 +33,6 @@ public class PatienceActivity extends AppCompatActivity {
                 final long SEC_PER_HOUR = 60 * 60;
                 final long SEC_PER_MIN = 60;
 
-                System.out.println("service start : " + serviceStart +", current time : " + currentTime);
-
                 new CountDownTimer(timeLeft*1000, 1000) {
 //
                     public void onTick(long timeLeft) {
@@ -64,7 +62,7 @@ public class PatienceActivity extends AppCompatActivity {
                         countdown.setText(sb.toString());
 
                 }
-//
+
                     public void onFinish() {
                         Intent i;
                         i = new Intent(PatienceActivity.this, MoodActivity.class);

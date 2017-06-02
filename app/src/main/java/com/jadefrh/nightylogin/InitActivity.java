@@ -259,9 +259,11 @@ public class InitActivity extends AppCompatActivity implements GoogleApiClient.C
                 long serviceEnd = longs[1];
                 long currentTime = longs[2];
 
-                boolean serviceIsOnline = currentTime > serviceStart && currentTime < serviceEnd;
+                //boolean serviceIsOnline = currentTime > serviceStart && currentTime < serviceEnd;
+                boolean serviceIsOnline = true;
                 Intent i;
                 if (serviceIsOnline){
+                    System.out.println("TEEEEEEST");
                     i = new Intent(InitActivity.this, MoodActivity.class);
                 } else {
                     i = new Intent(InitActivity.this, PatienceActivity.class);
