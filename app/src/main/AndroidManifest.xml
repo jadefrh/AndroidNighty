@@ -55,7 +55,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".InitActivity" />
-        <activity android:name=".PatienceActivity"></activity>
+        <activity android:name=".PatienceActivity" />
+        <activity android:name=".OnlineActivity"></activity>
     </application>
 
 </manifest>

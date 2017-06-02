@@ -1,5 +1,6 @@
 package com.jadefrh.nightylogin;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.http.RequestQueue;
 import android.support.v7.app.AppCompatActivity;
@@ -199,7 +200,11 @@ public class MoodActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(String response) {
                             // response
-                            Log.d("Response", response);
+                            //Log.d("Response", response);
+                            Intent i;
+                            i = new Intent(MoodActivity.this, OnlineActivity.class);
+                            startActivity(i);
+                            finish();
                         }
                     },
                     new Response.ErrorListener()
@@ -234,6 +239,7 @@ public class MoodActivity extends AppCompatActivity {
             };
 
             queue.add(putRequest);
+
         }
         //
 
