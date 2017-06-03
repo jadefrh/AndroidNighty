@@ -21,4 +21,5 @@
         android:text="Deconnexion"
         tools:layout_editor_absoluteX="162dp"
         tools:layout_editor_absoluteY="427dp" />
+
 </android.support.constraint.ConstraintLayout>
