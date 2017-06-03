@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -42,7 +43,7 @@ public class OnlineActivity extends AppCompatActivity {
     private TextView subtitleConnect;
     private ImageView imageConnect;
     private Button stateButtonConnect;
-    private Button settingsButton;
+    private ImageButton settingsButton;
     private boolean userStatus = true;
 
     @Override
@@ -53,7 +54,7 @@ public class OnlineActivity extends AppCompatActivity {
         SharedPreferences prefs = this.getSharedPreferences(MY_PREFS_NAME, this.MODE_PRIVATE);
         token = prefs.getString("nighty_access_token", null);
 
-        settingsButton = (Button)findViewById(R.id.settingsButton);
+        settingsButton = (ImageButton) findViewById(R.id.settingsButton);
         settingsButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent i;
@@ -88,6 +89,8 @@ public class OnlineActivity extends AppCompatActivity {
 
         tf2 = Typeface.createFromAsset(getAssets(),"fonts/SFDisplay-Regular.otf");
         tv2.setTypeface(tf2);
+
+
     }
 
 
