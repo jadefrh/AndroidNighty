@@ -15,6 +15,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,9 +26,10 @@ import static com.jadefrh.nightylogin.InitActivity.MY_PREFS_NAME;
 
 public class OnlineActivity extends AppCompatActivity {
 
-    com.android.volley.RequestQueue queue;
+    private com.android.volley.RequestQueue queue;
     private String token;
-    Button disconnect;
+    private Button disconnect;
+    private boolean userStatus = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +47,7 @@ public class OnlineActivity extends AppCompatActivity {
         });
 
         queue = Volley.newRequestQueue(this);
+        System.out.println("alors?" + userStatus);
     }
 
 
@@ -55,7 +61,17 @@ public class OnlineActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         // response
+                        try {
+                            JSONObject parentObject = new JSONObject(response);
+                            userStatus = parentObject.getBoolean("is_online");
+                            updateView();
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                         Log.d("Response", response);
+
                     }
                 },
                 new Response.ErrorListener()
@@ -72,7 +88,13 @@ public class OnlineActivity extends AppCompatActivity {
             protected Map<String, String> getParams()
             {
                 Map<String, String>  params = new HashMap<String, String>();
-                params.put("is_online", "false");
+                if (userStatus) {
+                    System.out.println("is online = false");
+                    params.put("is_online", "false");
+                } else {
+                    System.out.println("is online = true");
+                    params.put("is_online", "true");
+                }
 
                 return params;
             }
@@ -88,5 +110,14 @@ public class OnlineActivity extends AppCompatActivity {
 
         queue.add(putRequest);
 
+    }
+
+
+    private void updateView(){
+        if (userStatus) {
+            disconnect.setText("deconnexion");
+        } else {
+            disconnect.setText("connexion");
+        }
     }
 }
