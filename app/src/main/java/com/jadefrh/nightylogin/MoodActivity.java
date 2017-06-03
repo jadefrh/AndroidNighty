@@ -2,6 +2,7 @@ package com.jadefrh.nightylogin;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.net.http.RequestQueue;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -41,7 +42,6 @@ import static com.jadefrh.nightylogin.InitActivity.mLastLocation;
 
 public class MoodActivity extends AppCompatActivity {
 
-
     com.android.volley.RequestQueue queue;
     private String token;
 
@@ -52,8 +52,13 @@ public class MoodActivity extends AppCompatActivity {
     int selectedVibe;
     int selectedLookingFor;
 
+    TextView tv1, tv2, tv3, tv4, tv5;
+
+    Typeface tf1, tf2, tf3, tf4, tf5;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mood);
 
@@ -73,6 +78,27 @@ public class MoodActivity extends AppCompatActivity {
         queue = Volley.newRequestQueue(this);
 
         getMoods();
+
+        tv1 = (TextView) findViewById(R.id.mainTitleMood);
+        tv2 = (TextView) findViewById(R.id.subtitle);
+        tv3 = (TextView) findViewById(R.id.emotions);
+        tv4 = (TextView) findViewById(R.id.vibe);
+        tv5 = (TextView) findViewById(R.id.looking);
+
+        tf1 = Typeface.createFromAsset(getAssets(),"fonts/Gotham Rounded Bold.otf");
+        tv1.setTypeface(tf1);
+
+        tf2 = Typeface.createFromAsset(getAssets(),"fonts/SFDisplay-Regular.otf");
+        tv2.setTypeface(tf2);
+
+        tf3 = Typeface.createFromAsset(getAssets(),"fonts/SFDisplay-Regular.otf");
+        tv3.setTypeface(tf3);
+
+        tf4 = Typeface.createFromAsset(getAssets(),"fonts/SFDisplay-Regular.otf");
+        tv4.setTypeface(tf4);
+
+        tf5 = Typeface.createFromAsset(getAssets(),"fonts/SFDisplay-Regular.otf");
+        tv5.setTypeface(tf5);
 
     }
 
