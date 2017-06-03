@@ -84,7 +84,6 @@ public class MoodActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.e("HttpClient", "success! response: " + response);
                         displayMoods(response);
                     }
                 },
