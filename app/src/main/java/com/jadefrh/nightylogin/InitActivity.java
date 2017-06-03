@@ -75,7 +75,6 @@ public class InitActivity extends AppCompatActivity implements GoogleApiClient.C
         fbaccesstoken = (TextView) findViewById(R.id.fbaccesstoken);
 //        LoginManager.getInstance().logOut();
 
-        LoginManager.getInstance().logOut();
 
 
         // Create an instance of GoogleAPIClient.

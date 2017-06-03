@@ -29,6 +29,7 @@ public class OnlineActivity extends AppCompatActivity {
     private com.android.volley.RequestQueue queue;
     private String token;
     private Button disconnect;
+    private Button settingsButton;
     private boolean userStatus = true;
 
     @Override
@@ -38,6 +39,16 @@ public class OnlineActivity extends AppCompatActivity {
 
         SharedPreferences prefs = this.getSharedPreferences(MY_PREFS_NAME, this.MODE_PRIVATE);
         token = prefs.getString("nighty_access_token", null);
+
+        settingsButton = (Button)findViewById(R.id.settingsButton);
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent i;
+                i = new Intent(OnlineActivity.this, SettingsActivity.class);
+                startActivity(i);
+
+            }
+        });
 
         disconnect = (Button)findViewById(R.id.disconnect);
         disconnect.setOnClickListener(new View.OnClickListener() {
