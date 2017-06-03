@@ -56,6 +56,7 @@
         </activity>
         <activity android:name=".InitActivity" />
         <activity android:name=".PatienceActivity" />
+<<<<<<< HEAD
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
@@ -64,6 +65,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.jadefrh.nightylogin.PatienceActivity" />
         </activity>
+=======
+        <activity android:name=".OnlineActivity"></activity>
+>>>>>>> 0c7e5d265b01743b8006489c98709c03b7ff7fdf
     </application>
 
 </manifest>
