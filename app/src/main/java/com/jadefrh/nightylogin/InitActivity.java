@@ -73,8 +73,6 @@ public class InitActivity extends AppCompatActivity implements GoogleApiClient.C
         setContentView(R.layout.activity_init);
         fbaccesstoken = (TextView) findViewById(R.id.fbaccesstoken);
 
-        LoginManager.getInstance().logOut();
-
 
         // Create an instance of GoogleAPIClient.
         if (mGoogleApiClient == null) {
@@ -280,7 +278,8 @@ public class InitActivity extends AppCompatActivity implements GoogleApiClient.C
 
                     long currentTime = System.currentTimeMillis() / 1000L;
 
-                    boolean serviceIsOnline = currentTime > service_start && currentTime < service_end;
+                   // boolean serviceIsOnline = currentTime > service_start && currentTime < service_end;
+                    boolean serviceIsOnline = true;
                     Intent i;
                     if (serviceIsOnline){
                         i = new Intent(InitActivity.this, MoodActivity.class);
