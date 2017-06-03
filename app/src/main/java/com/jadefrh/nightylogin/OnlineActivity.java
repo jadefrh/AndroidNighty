@@ -38,14 +38,11 @@ public class OnlineActivity extends AppCompatActivity {
     private com.android.volley.RequestQueue queue;
     private String token;
     private Button disconnect;
-<<<<<<< HEAD
     private TextView titleConnect;
     private TextView subtitleConnect;
     private ImageView imageConnect;
     private Button stateButtonConnect;
-=======
     private Button settingsButton;
->>>>>>> fbc354549bc486742fd7506c9edc5d53703b2f5e
     private boolean userStatus = true;
 
     @Override
