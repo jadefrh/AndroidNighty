@@ -32,10 +32,14 @@ public class SettingsActivity extends AppCompatActivity {
     private com.android.volley.RequestQueue queue;
 
     private Button logout;
+    private Button female;
+    private Button male;
+    private Button both;
     private SeekBar distanceBar;
     private TextView distanceText;
 
     private int distanceValue;
+    String selectedGender;
 
 
     @Override
@@ -43,15 +47,18 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        distanceText = (TextView)findViewById(R.id.distanceText);
+        female = (Button)findViewById(R.id.female);
+        male = (Button)findViewById(R.id.male);
+        both = (Button)findViewById(R.id.both);
 
+        distanceText = (TextView)findViewById(R.id.distanceText);
         distanceBar = (SeekBar)findViewById(R.id.distanceBar);
         distanceText.setText("2");
         distanceBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                distanceText.setText("Distance : "+progress);
+                distanceText.setText("Maximum distance : "+progress);
             }
 
             @Override
@@ -85,7 +92,25 @@ public class SettingsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        onStopTrackingTouch();
+        female.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                selectedGender = "female";
+            }
+        });
+
+        male.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                selectedGender = "male";
+            }
+        });
+
+        both.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                selectedGender = "both";
+            }
+        });
+
+
 
         queue = Volley.newRequestQueue(this);
     }
@@ -99,7 +124,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void updatePreferences() {
-        System.out.println("hihi : " + distanceValue);
+        System.out.println("hihi : " + distanceValue + " and selected gender : " + selectedGender);
 //        StringRequest putRequest = new StringRequest(Request.Method.PUT, "http://nighty-develop.ivvp7jqj5r.eu-west-1.elasticbeanstalk.com/api/user/current",
 //                new Response.Listener<String>()
 //                {
@@ -154,10 +179,6 @@ public class SettingsActivity extends AppCompatActivity {
 //        };
 //
 //        queue.add(putRequest);
-    }
-
-    public void onStopTrackingTouch() {
-
     }
 
 
