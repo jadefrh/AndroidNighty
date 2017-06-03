@@ -90,10 +90,10 @@ public class OnlineActivity extends AppCompatActivity {
                 Map<String, String>  params = new HashMap<String, String>();
                 if (userStatus) {
                     System.out.println("is online = false");
-                    params.put("is_online", "false");
+                    params.put("is_online", "0");
                 } else {
                     System.out.println("is online = true");
-                    params.put("is_online", "true");
+                    params.put("is_online", "1");
                 }
 
                 return params;
