@@ -37,6 +37,8 @@ public class OnlineActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_online);
 
+        System.out.println("alors?" + userStatus);
+
         SharedPreferences prefs = this.getSharedPreferences(MY_PREFS_NAME, this.MODE_PRIVATE);
         token = prefs.getString("nighty_access_token", null);
 
@@ -58,7 +60,7 @@ public class OnlineActivity extends AppCompatActivity {
         });
 
         queue = Volley.newRequestQueue(this);
-        System.out.println("alors?" + userStatus);
+
     }
 
 
@@ -126,6 +128,7 @@ public class OnlineActivity extends AppCompatActivity {
 
     private void updateView(){
         if (userStatus) {
+
             disconnect.setText("deconnexion");
         } else {
             disconnect.setText("connexion");

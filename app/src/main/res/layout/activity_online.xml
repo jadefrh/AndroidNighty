@@ -11,23 +11,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="You're Online!!!"
-        tools:layout_editor_absoluteX="163dp"
-        tools:layout_editor_absoluteY="108dp" />
+        tools:layout_editor_absoluteX="146dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="97dp" />
 
     <Button
         android:id="@+id/disconnect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Deconnexion"
-        tools:layout_editor_absoluteX="162dp"
-        tools:layout_editor_absoluteY="427dp" />
+        tools:layout_editor_absoluteX="132dp"
+        android:layout_marginTop="86dp"
+        app:layout_constraintTop_toBottomOf="@+id/settingsButton" />
 
     <Button
         android:id="@+id/settingsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Settings"
-        tools:layout_editor_absoluteX="104dp"
-        tools:layout_editor_absoluteY="301dp" />
+        tools:layout_editor_absoluteX="147dp"
+        android:layout_marginTop="75dp"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
 </android.support.constraint.ConstraintLayout>
