@@ -55,7 +55,15 @@
             </intent-filter>
         </activity>
         <activity android:name=".InitActivity" />
-        <activity android:name=".PatienceActivity"></activity>
+        <activity android:name=".PatienceActivity" />
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".PatienceActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.jadefrh.nightylogin.PatienceActivity" />
+        </activity>
     </application>
 
 </manifest>
