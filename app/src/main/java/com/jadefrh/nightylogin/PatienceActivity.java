@@ -1,7 +1,6 @@
 package com.jadefrh.nightylogin;
 
 import android.content.Intent;
-<<<<<<< HEAD
 import android.graphics.Typeface;
 import android.media.audiofx.BassBoost;
 import android.support.v7.app.AppCompatActivity;
@@ -9,16 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
-public class PatienceActivity extends AppCompatActivity {
-
-
-
-    TextView tv1, tv2, tv3;
-
-    Typeface tf1, tf2, tf3;
-
-=======
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,16 +15,21 @@ import android.widget.TextView;
 
 import com.jadefrh.nightylogin.helpers.SunTimeHelper;
 
+
+
+
 public class PatienceActivity extends AppCompatActivity {
 
+    TextView tv1, tv2, tv3;
+
+    Typeface tf1, tf2, tf3;
+
     TextView countdown;
->>>>>>> 0c7e5d265b01743b8006489c98709c03b7ff7fdf
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patience);
-<<<<<<< HEAD
 
 
 
@@ -53,10 +47,8 @@ public class PatienceActivity extends AppCompatActivity {
         tv3.setTypeface(tf3);
 
 
-=======
         countdown = (TextView) findViewById(R.id.countdown);
         displayCounter();
->>>>>>> 0c7e5d265b01743b8006489c98709c03b7ff7fdf
     }
 
     private void displayCounter() {

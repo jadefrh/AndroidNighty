@@ -8,7 +8,6 @@
     tools:context="com.jadefrh.nightylogin.PatienceActivity">
 
     <TextView
-<<<<<<< HEAD
         android:id="@+id/titre"
         android:layout_width="239dp"
         android:layout_height="43dp"
@@ -94,13 +93,12 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="25dp" />
 
-=======
+    <TextView
         android:id="@+id/countdown"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
         tools:layout_editor_absoluteX="163dp"
         tools:layout_editor_absoluteY="145dp" />
->>>>>>> 0c7e5d265b01743b8006489c98709c03b7ff7fdf
 
 </android.support.constraint.ConstraintLayout>

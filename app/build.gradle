@@ -44,11 +44,6 @@ dependencies {
     compile 'com.google.android.gms:play-services:8.3.0'
     compile 'pub.devrel:easypermissions:0.4.0'
     compile 'com.squareup.okhttp3:okhttp:3.8.0'
-<<<<<<< HEAD
-    compile 'com.android.support:support-v4:25.3.1'
-    compile 'com.android.support:support-vector-drawable:25.3.1'
-=======
     compile 'com.android.volley:volley:1.0.0'
->>>>>>> 0c7e5d265b01743b8006489c98709c03b7ff7fdf
     testCompile 'junit:junit:4.12'
 }
