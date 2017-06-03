@@ -59,12 +59,13 @@
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".PatienceActivity">
+            android:parentActivityName="com.jadefrh.nightylogin.OnlineActivity"/>
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.jadefrh.nightylogin.PatienceActivity" />
-        </activity>
-        <activity android:name=".OnlineActivity"></activity>
+                android:value="com.jadefrh.nightylogin.OnlineActivity" />
+
+
+        <activity android:name=".OnlineActivity" />
     </application>
 
 </manifest>

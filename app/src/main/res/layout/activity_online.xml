@@ -94,4 +94,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/settings" />
 
+    <Button
+        android:id="@+id/settingsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Settings"
+        tools:layout_editor_absoluteX="104dp"
+        tools:layout_editor_absoluteY="301dp" />
+
 </android.support.constraint.ConstraintLayout>
