@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.facebook.AccessToken;
@@ -15,6 +16,7 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
+
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -38,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     LoginButton login_button;
     CallbackManager callbackManager;
     Button custom_login_button;
+    ImageButton imageButton2;
+    com.facebook.login.LoginManager fbLoginManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +54,9 @@ public class MainActivity extends AppCompatActivity {
 
         initializeControls();
         loginWithFB();
-        login_button.setReadPermissions(Arrays.asList("public_profile", "email", "user_birthday", "user_friends"));
+        //login_button.setReadPermissions(Arrays.asList("public_profile", "email", "user_birthday", "user_friends"));
 
+        imageButton2 = (ImageButton) findViewById(R.id.imageButton2);
 
         tv1 = (TextView) findViewById(R.id.txtstatus);
         tv2 = (TextView) findViewById(R.id.subtitle);
@@ -68,6 +73,16 @@ public class MainActivity extends AppCompatActivity {
 
         setTitle("MainActivity");
 
+        fbLoginManager = com.facebook.login.LoginManager.getInstance();
+        CallbackManager callbackManager = CallbackManager.Factory.create();
+
+        imageButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fbLoginManager.logInWithReadPermissions(MainActivity.this, Arrays.asList("email", "public_profile", "user_birthday"));
+            }
+        });
+
 
     }
 
@@ -77,68 +92,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-    private void afterLogin() {
-        System.out.println("hellooooooooo");
-
-        //startActivity(new Intent(this, schedule_act.class));
-//        new SunTimeHelper() {
-//            @Override
-//            protected void onPostExecute(String[] result) {
-//                String sunrise = result[0];
-//                String sunset = result[1];
-//
-//                try {
-//                    SimpleDateFormat formatter = new SimpleDateFormat("h:mm:ss a", Locale.US);
-//
-//                    Date time1 = formatter.parse(sunset);
-//                    Calendar calendar1 = Calendar.getInstance();
-//                    calendar1.setTime(time1);
-//                    int hour1 = calendar1.get(Calendar.HOUR);
-//                    int minute1 = calendar1.get(Calendar.MINUTE);
-//                    int second1 = calendar1.get(Calendar.SECOND);
-//                    int sunsetTime = hour1 * 3600 + minute1 * 60 + second1;
-//
-//                    Date time2 = formatter.parse(sunrise);
-//                    Calendar calendar2 = Calendar.getInstance();
-//                    calendar2.setTime(time2);
-//                    calendar2.add(Calendar.DATE, 1);
-//                    int hour2 = calendar2.get(Calendar.HOUR);
-//                    int minute2 = calendar2.get(Calendar.MINUTE);
-//                    int second2 = calendar2.get(Calendar.SECOND);
-//                    int sunriseTime = hour2 * 3600 + minute2 * 60 + second2;
-//
-//                    Calendar now = Calendar.getInstance();
-//                    int hour3 = now.get(Calendar.HOUR);
-//                    int minute3 = now.get(Calendar.MINUTE);
-//                    int second3 = now.get(Calendar.SECOND);
-//                    int currentTime = hour3 * 3600 + minute3 * 60 + second3;
-//
-//                    System.out.println(sunsetTime);
-//                    System.out.println(currentTime);
-//                    System.out.println(sunriseTime);
-//
-////                    Date x = calendar3.getTime();
-////                    if (x.after(calendar1.getTime()) && x.before(calendar2.getTime())) {
-////                        //checks whether the current time is between 14:49:00 and 20:11:13.
-////                        startActivity(new Intent(MainActivity.this, MoodActivity.class));
-////                    } else {
-////                    }
-//
-//                } catch (ParseException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        };
-    }
-
-
     private void initializeControls() {
         callbackManager = CallbackManager.Factory.create();
-
         txtStatus = (TextView)findViewById(R.id.txtstatus);
-        login_button = (LoginButton)findViewById(R.id.login_button);
-        //custom_login_button = (Button)findViewById(R.id.custom_login_button);
     }
 
     private void loginWithFB() {
@@ -162,12 +118,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //custom_login_button.setOnClickListener(new View.OnClickListener() {
-        //    @Override
-        //    public void onClick(View v) {
-        //        LoginManager.getInstance().logInWithReadPermissions(MainActivity.this, Arrays.asList("public_profile", "email"));
-        //    }
-        //});
     }
 
 
