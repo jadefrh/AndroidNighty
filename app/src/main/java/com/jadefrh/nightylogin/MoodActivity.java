@@ -2,10 +2,13 @@ package com.jadefrh.nightylogin;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.net.http.RequestQueue;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.style.BackgroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -155,11 +158,14 @@ public class MoodActivity extends AppCompatActivity {
                     moodButtonVibe.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                     moodButtonVibe.setId(Integer.parseInt(mood_id));
                     moodButtonVibe.setText(mood_name);
+                    moodButtonVibe.setBackgroundColor(Color.parseColor("#1e1d2a"));
                     ll_vibe.addView(moodButtonVibe);
 
                     moodButtonVibe.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) {
                             selectedVibe = moodButtonVibe.getId();
+                            moodButtonVibe.setBackgroundColor(Color.parseColor("#FFFFFF"));
+
                         }
                     });
 
@@ -172,11 +178,15 @@ public class MoodActivity extends AppCompatActivity {
                     moodButtonFeeling.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                     moodButtonFeeling.setId(Integer.parseInt(mood_id));
                     moodButtonFeeling.setText(mood_name);
+                    moodButtonFeeling.setBackgroundColor(Color.parseColor("#1e1d2a"));
+
                     ll_feeling.addView(moodButtonFeeling);
 
                     moodButtonFeeling.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) {
                             selectedFeeling = moodButtonFeeling.getId();
+                            moodButtonFeeling.setBackgroundColor(Color.parseColor("#FFFFFF"));
+
                         }
                     });
 
@@ -188,11 +198,15 @@ public class MoodActivity extends AppCompatActivity {
                     moodButtonLookingFor.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                     moodButtonLookingFor.setId(Integer.parseInt(mood_id));
                     moodButtonLookingFor.setText(mood_name);
+                    moodButtonLookingFor.setBackgroundColor(Color.parseColor("#1e1d2a"));
+
                     ll_lookingfor.addView(moodButtonLookingFor);
 
                     moodButtonLookingFor.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) {
                             selectedLookingFor = moodButtonLookingFor.getId();
+                            moodButtonLookingFor.setBackgroundColor(Color.parseColor("#FFFFFF"));
+
                         }
                     });
                 }
@@ -217,7 +231,9 @@ public class MoodActivity extends AppCompatActivity {
         if (selectedVibe == 0 || selectedFeeling == 0 || selectedLookingFor == 0 ) {
             System.out.println("heeeeeeee");
             return;
+
         } else {
+
 
             StringRequest putRequest = new StringRequest(Request.Method.PUT, "http://nighty-develop.ivvp7jqj5r.eu-west-1.elasticbeanstalk.com/api/user/current",
                     new Response.Listener<String>()
