@@ -25,7 +25,8 @@ repositories {
     mavenCentral()
     maven {
         url "https://github.com/QuickBlox/quickblox-android-sdk-releases/raw/master/"
-    }
+        }
+    maven { url "https://jitpack.io" }
 }
 
 dependencies {
@@ -46,4 +47,5 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.8.0'
     compile 'com.android.volley:volley:1.0.0'
     testCompile 'junit:junit:4.12'
+    compile 'com.github.syedowaisali:crystal-range-seekbar:6303e15794'
 }
