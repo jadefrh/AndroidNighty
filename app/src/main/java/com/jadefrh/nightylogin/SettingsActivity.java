@@ -2,6 +2,7 @@ package com.jadefrh.nightylogin;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,13 +37,19 @@ import static com.jadefrh.nightylogin.InitActivity.MY_PREFS_NAME;
 
 public class SettingsActivity extends AppCompatActivity {
 
+
+
+    TextView tv1, tv2, tv3;
+
+    Typeface tf1, tf2, tf3;
+
     private com.android.volley.RequestQueue queue;
     private String token;
 
     private Button logout;
-    private Button female;
-    private Button male;
-    private Button both;
+    private ImageButton female;
+    private ImageButton male;
+    private ImageButton both;
     private SeekBar distanceBar;
     private CrystalRangeSeekbar ageBar;
     private TextView distanceText;
@@ -59,9 +67,9 @@ public class SettingsActivity extends AppCompatActivity {
         SharedPreferences prefs = this.getSharedPreferences(MY_PREFS_NAME, this.MODE_PRIVATE);
         token = prefs.getString("nighty_access_token", null);
 
-        female = (Button)findViewById(R.id.female);
-        male = (Button)findViewById(R.id.male);
-        both = (Button)findViewById(R.id.both);
+        female = (ImageButton) findViewById(R.id.female);
+        male = (ImageButton) findViewById(R.id.male);
+        both = (ImageButton)findViewById(R.id.both);
 
         ageBar = (CrystalRangeSeekbar) findViewById(R.id.ageBar);
 
@@ -94,7 +102,7 @@ public class SettingsActivity extends AppCompatActivity {
         ///////////////////// DISTANCE BAR //////////////////////
         distanceText = (TextView)findViewById(R.id.distanceText);
         distanceBar = (SeekBar)findViewById(R.id.distanceBar);
-        distanceText.setText("2");
+        distanceText.setText("MAXIMUM DISTANCE");
         distanceBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
@@ -154,6 +162,23 @@ public class SettingsActivity extends AppCompatActivity {
 
 
         queue = Volley.newRequestQueue(this);
+
+
+
+
+
+        tv1 = (TextView) findViewById(R.id.age);
+        tv2 = (TextView) findViewById(R.id.distanceText);
+        tv3 = (TextView) findViewById(R.id.interest);
+
+        tf1 = Typeface.createFromAsset(getAssets(),"fonts/SFDisplay-Regular.otf");
+        tv1.setTypeface(tf1);
+
+        tf2 = Typeface.createFromAsset(getAssets(),"fonts/SFDisplay-Regular.otf");
+        tv2.setTypeface(tf2);
+
+        tf3 = Typeface.createFromAsset(getAssets(),"fonts/SFDisplay-Regular.otf");
+        tv3.setTypeface(tf3);
     }
 
     @Override
