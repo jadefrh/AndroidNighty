@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
 
+import java.util.UUID;
+
 import static com.jadefrh.nightylogin.InitActivity.MY_PREFS_NAME;
 
 public class LauncherActivity extends AppCompatActivity {
@@ -25,6 +27,9 @@ public class LauncherActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launcher);
+
+
+
 
         new Handler().postDelayed(new Runnable() {
             @Override

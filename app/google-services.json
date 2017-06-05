@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "852348557766",
+    "project_id": "firebase-nighty"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:852348557766:android:bcb315a546595abc",
+        "android_client_info": {
+          "package_name": "com.jadefrh.nightylogin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "852348557766-r7ae2u641kh6jrfsrpnbi0itdlraj3g2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvhWDGZk3OtRCAq55-Sd1QDPw9q0IBMtw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
