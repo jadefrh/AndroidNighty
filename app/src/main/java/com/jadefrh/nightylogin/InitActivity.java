@@ -57,7 +57,7 @@ public class InitActivity extends AppCompatActivity implements GoogleApiClient.C
 
     private GoogleApiClient mGoogleApiClient;
     public static final String MY_PREFS_NAME = "MyPrefsFile";
-    TextView fbaccesstoken;
+    //TextView fbaccesstoken;
     public static Location mLastLocation;
 
     private long UPDATE_INTERVAL = 10 * 1000;  /* 10 secs */
@@ -72,7 +72,7 @@ public class InitActivity extends AppCompatActivity implements GoogleApiClient.C
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_init);
-        fbaccesstoken = (TextView) findViewById(R.id.fbaccesstoken);
+ //       fbaccesstoken = (TextView) findViewById(R.id.fbaccesstoken);
 //       LoginManager.getInstance().logOut();
 
 
