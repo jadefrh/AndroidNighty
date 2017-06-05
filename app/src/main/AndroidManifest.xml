@@ -9,7 +9,6 @@
         android:protectionLevel="signature" />
 
     <uses-permission android:name="com.jadefrh.nightylogin.permission.MAPS_RECEIVE" />
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
@@ -39,13 +38,13 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity android:name=".GetSunsetActivity">
-            <intent-filter>
-                <action android:name="com.jadefrh.nightylogin.GetSunsetActivity" />
+        <!--<activity android:name=".GetSunsetActivity">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="com.jadefrh.nightylogin.GetSunsetActivity" />-->
 
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+                <!--<category android:name="android.intent.category.DEFAULT" />-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
         <activity android:name=".MoodActivity" />
         <activity android:name=".LauncherActivity">
             <intent-filter>
