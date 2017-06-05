@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -49,7 +50,7 @@ public class MoodActivity extends AppCompatActivity {
     private String token;
 
     TextView mainTitleMood;
-    Button submitMoods;
+    ImageButton submitMoods;
 
     int selectedFeeling;
     int selectedVibe;
@@ -66,7 +67,7 @@ public class MoodActivity extends AppCompatActivity {
         setContentView(R.layout.activity_mood);
 
         mainTitleMood = (TextView)findViewById(R.id.mainTitleMood);
-        submitMoods = (Button)findViewById(R.id.submitMoods);
+        submitMoods = (ImageButton) findViewById(R.id.submitMoods);
 
         submitMoods.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

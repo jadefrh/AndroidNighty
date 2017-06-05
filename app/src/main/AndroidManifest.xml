@@ -42,6 +42,11 @@
             android:value="@string/facebook_app_id" />
 
         <!--<activity android:name=".GetSunsetActivity">-->
+        <!--<intent-filter>-->
+        <!--<action android:name="com.jadefrh.nightylogin.GetSunsetActivity" />-->
+
+        <!--<category android:name="android.intent.category.DEFAULT" />-->
+        <!--</intent-filter>-->
             <!--<intent-filter>-->
                 <!--<action android:name="com.jadefrh.nightylogin.GetSunsetActivity" />-->
 
@@ -62,9 +67,9 @@
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
             android:parentActivityName="com.jadefrh.nightylogin.OnlineActivity"/>
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.jadefrh.nightylogin.OnlineActivity" />
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.jadefrh.nightylogin.OnlineActivity" />
 
 
         <activity android:name=".OnlineActivity" />
