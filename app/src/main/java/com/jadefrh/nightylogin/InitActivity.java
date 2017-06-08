@@ -72,14 +72,12 @@ public class InitActivity extends AppCompatActivity implements GoogleApiClient.C
 
     private boolean checkTimeWaiting = false;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_init);
-        //       fbaccesstoken = (TextView) findViewById(R.id.fbaccesstoken);
-//       LoginManager.getInstance().logOut();
+//      fbaccesstoken = (TextView) findViewById(R.id.fbaccesstoken);
+//      LoginManager.getInstance().logOut();
 
 
         FirebaseMessaging.getInstance().subscribeToTopic("test");
@@ -123,6 +121,8 @@ public class InitActivity extends AppCompatActivity implements GoogleApiClient.C
         }
 
 
+
+        System.out.println("weshhhhhhhhhhhhh hhhh hh h hdhnskcjs");
     }
 
     @Override
@@ -196,8 +196,8 @@ public class InitActivity extends AppCompatActivity implements GoogleApiClient.C
         // POST request to API to get Nighty Access Token
         String url = ApiFetch.API_URL + "/oauth/token";
         String charset = "UTF-8";
-        String clientId = "1_5g8ptf7pfeskcssssc8skok44kwcc0kwgsg8so8g4cwwgk0c0c";
-        String clientSecret = "5t56m2ydfokkg8sowwkgksww00kkwwcoo0s4osw40ggs8s4s40";
+        String clientId = "1_4oh5wh2kmnqcc8wckokw80csc0wc8s48g8ss4g4sg4gwsg88go";
+        String clientSecret = "i3vbceylx9cgow04c8wk4w0gskso44s0844kggck4ck4w4c8c";
         String grantType = "http://nighty-develop.ivvp7jqj5r.eu-west-1.elasticbeanstalk.com/oauth/auth/connect/facebook";
         String accessToken = token.getToken();
 
@@ -232,6 +232,8 @@ public class InitActivity extends AppCompatActivity implements GoogleApiClient.C
             JSONObject parentObject = new JSONObject(finalJson);
             String nightyAccessToken = parentObject.getString("access_token");
             System.out.println("Access Token : " + nightyAccessToken);
+//            qbLogin = ;
+//            qbPassword;
 
             return nightyAccessToken;
 
@@ -256,7 +258,9 @@ public class InitActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
     private boolean hasToken() {
+
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        prefs.edit().remove("nighty_access_token").commit();
         String token = prefs.getString("nighty_access_token", null);
 
         return token != null;

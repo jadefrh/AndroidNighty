@@ -28,7 +28,7 @@ public class LauncherActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launcher);
 
-
+        //LoginManager.getInstance().logOut();
 
 
         new Handler().postDelayed(new Runnable() {

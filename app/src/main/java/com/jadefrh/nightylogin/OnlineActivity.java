@@ -20,6 +20,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.quickblox.auth.QBAuth;
+import com.quickblox.chat.QBChatService;
+import com.quickblox.core.QBEntityCallback;
+import com.quickblox.core.exception.QBResponseException;
+import com.quickblox.users.model.QBUser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -60,6 +65,7 @@ public class OnlineActivity extends AppCompatActivity {
                 i = new Intent(OnlineActivity.this, SettingsActivity.class);
                 startActivity(i);
 
+
             }
         });
 
@@ -88,10 +94,7 @@ public class OnlineActivity extends AppCompatActivity {
         tf2 = Typeface.createFromAsset(getAssets(),"fonts/SFDisplay-Regular.otf");
         tv2.setTypeface(tf2);
 
-
     }
-
-
 
     // Bouton pour se déconnecter
     private void user_is_offline(){
@@ -105,6 +108,7 @@ public class OnlineActivity extends AppCompatActivity {
                         try {
                             JSONObject parentObject = new JSONObject(response);
                             userStatus = parentObject.getBoolean("is_online");
+
                             updateView();
 
 
@@ -170,4 +174,7 @@ public class OnlineActivity extends AppCompatActivity {
 
         }
     }
+
+
+
 }

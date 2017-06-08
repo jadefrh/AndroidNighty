@@ -3,20 +3,23 @@
     package="com.jadefrh.nightylogin">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <permission
         android:name="com.jadefrh.nightylogin.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="com.jadefrh.nightylogin.permission.MAPS_RECEIVE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
-
 
     <application
         android:allowBackup="true"
@@ -41,18 +44,20 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <!--<activity android:name=".GetSunsetActivity">-->
-        <!--<intent-filter>-->
-        <!--<action android:name="com.jadefrh.nightylogin.GetSunsetActivity" />-->
+        <!-- <activity android:name=".GetSunsetActivity"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="com.jadefrh.nightylogin.GetSunsetActivity" /> -->
 
-        <!--<category android:name="android.intent.category.DEFAULT" />-->
-        <!--</intent-filter>-->
-            <!--<intent-filter>-->
-                <!--<action android:name="com.jadefrh.nightylogin.GetSunsetActivity" />-->
 
-                <!--<category android:name="android.intent.category.DEFAULT" />-->
-            <!--</intent-filter>-->
-        <!--</activity>-->
+        <!-- <category android:name="android.intent.category.DEFAULT" /> -->
+        <!-- </intent-filter> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="com.jadefrh.nightylogin.GetSunsetActivity" /> -->
+
+
+        <!-- <category android:name="android.intent.category.DEFAULT" /> -->
+        <!-- </intent-filter> -->
+        <!-- </activity> -->
         <activity android:name=".MoodActivity" />
         <activity android:name=".LauncherActivity">
             <intent-filter>
@@ -66,11 +71,11 @@
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName="com.jadefrh.nightylogin.OnlineActivity"/>
+            android:parentActivityName=".OnlineActivity" />
+
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value="com.jadefrh.nightylogin.OnlineActivity" />
-
 
         <activity android:name=".OnlineActivity" />
 
@@ -80,18 +85,21 @@
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
-
         </service>
-
         <service
             android:name=".FirebaseInstanceIDService"
             android:permission="">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
-
         </service>
 
+        <activity android:name=".VideoActivity">
+            <intent-filter>
+                <action android:name="com.jadefrh.nightylogin.VIDEO_ACTIVITY" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

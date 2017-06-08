@@ -56,6 +56,8 @@ public class MoodActivity extends AppCompatActivity {
     int selectedVibe;
     int selectedLookingFor;
 
+    String qbLogin;
+
     TextView tv1, tv2, tv3, tv4, tv5;
 
     Typeface tf1, tf2, tf3, tf4, tf5;
@@ -148,8 +150,8 @@ public class MoodActivity extends AppCompatActivity {
             JSONArray parentArray = new JSONArray(moods);
             for (int i = 0; i < parentArray.length(); i++) {
 
-                    final JSONObject mood = parentArray.getJSONObject(i);
-                    String mood_type = mood.getString("type");
+                final JSONObject mood = parentArray.getJSONObject(i);
+                String mood_type = mood.getString("type");
 
                 if ( mood_type.equals("vibe") ) {
                     String mood_name = mood.getString("name");
@@ -242,11 +244,21 @@ public class MoodActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(String response) {
                             // response
-                            //Log.d("Response", response);
-                            Intent i;
-                            i = new Intent(MoodActivity.this, OnlineActivity.class);
-                            startActivity(i);
-                            finish();
+                            Log.d("Response", response);
+                            JSONObject parentObject = null;
+                            try {
+                                parentObject = new JSONObject(response);
+                                qbLogin = parentObject.getString("email");
+                                storeEmail(qbLogin);
+                                Intent i;
+                                i = new Intent(MoodActivity.this, OnlineActivity.class);
+                                startActivity(i);
+                                finish();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+
                         }
                     },
                     new Response.ErrorListener()
@@ -285,6 +297,12 @@ public class MoodActivity extends AppCompatActivity {
         }
         //
 
+    }
+
+    private void storeEmail(String email) {
+        SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+        editor.putString("user_email", email);
+        editor.apply();
     }
 
 
