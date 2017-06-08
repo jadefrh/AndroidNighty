@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Intent i = new Intent(MainActivity.this, InitActivity.class);
-                System.out.println("TOKEN : "+loginResult.getAccessToken().getToken());
+                //System.out.println("TOKEN : "+loginResult.getAccessToken().getToken());
                 startActivity(i);
                 finish();
             }

@@ -72,9 +72,7 @@ public abstract class SunTimeHelper extends AsyncTask<Void, Void, long[]> {
             long currentTime = System.currentTimeMillis() / 1000L;
 
             return new long[]{service_start, service_end, currentTime};
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
 

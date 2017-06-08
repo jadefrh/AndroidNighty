@@ -3,6 +3,7 @@ package com.jadefrh.nightylogin;
 import android.app.Service;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
@@ -38,30 +39,45 @@ public class FirebaseInstanceIDService extends FirebaseInstanceIdService {
 
     private void registerToken(String fbToken) {
 
-        // On récupère le Nighty Access Token des Shared Preferences
-        SharedPreferences prefs = this.getSharedPreferences(MY_PREFS_NAME, this.MODE_PRIVATE);
-        token = prefs.getString("nighty_access_token", null);
-
-        OkHttpClient client = new OkHttpClient();
         uniqueId = UUID.randomUUID().toString();
-        RequestBody body = new FormBody.Builder()
-                .add("token", fbToken)
-                .add("platform","android")
-                .add("identifier", uniqueId)
-                .build();
 
-        Request request = new Request.Builder()
-                .url("http://nighty-develop.ivvp7jqj5r.eu-west-1.elasticbeanstalk.com/api/device")
-                .post(body)
-                .addHeader("Authorization", "Bearer " + token)
-                .build();
+        SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+        editor.putString("fb_token", fbToken);
+        editor.putString("identifier", uniqueId);
+        editor.apply();
 
-        System.out.println("EST CE QUE JE RENTRE ICI MEME ????? : " + token);
+        System.out.println("test première instance : " + fbToken + " et " + uniqueId);
 
-        try {
-            client.newCall(request).execute();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // On récupère le Nighty Access Token des Shared Preferences
+        //SharedPreferences prefs = this.getSharedPreferences(MY_PREFS_NAME, this.MODE_PRIVATE);
+        //token = prefs.getString("nighty_access_token", null);
+        //System.out.println("le petit token recherché ! : " + token);
+
+        //System.out.println("fb token : " + fbToken);
+
+
+//        OkHttpClient client = new OkHttpClient();
+//
+//        System.out.println("UUID : " + uniqueId);
+//
+//        RequestBody body = new FormBody.Builder()
+//                .add("token", fbToken)
+//                .add("platform","android")
+//                .add("identifier", uniqueId)
+//                .build();
+//
+//        Request request = new Request.Builder()
+//                .url("http://nighty-develop.ivvp7jqj5r.eu-west-1.elasticbeanstalk.com/api/device")
+//                .post(body)
+//                .addHeader("Authorization", "Bearer " + token)
+//                .build();
+//
+//        System.out.println("EST CE QUE JE RENTRE ICI MEME ????? : " + token);
+//
+//        try {
+//            client.newCall(request).execute();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 }
