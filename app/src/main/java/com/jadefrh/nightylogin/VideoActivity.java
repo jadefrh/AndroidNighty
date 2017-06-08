@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.quickblox.auth.QBAuth;
 import com.quickblox.auth.session.QBSession;
@@ -50,6 +53,8 @@ public class VideoActivity extends AppCompatActivity implements QBRTCClientSessi
     static final String AUTH_SECRET = "f2DFnCfrkcmvepE";
     static final String ACCOUNT_KEY = "RyqpYix2Y54TzqeSACQs";
 
+    Button button2;
+
     private QBRTCClient rtcClient;
     private QBRTCSurfaceView surfaceView;
 
@@ -59,6 +64,8 @@ public class VideoActivity extends AppCompatActivity implements QBRTCClientSessi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
+
+        button2 = (Button) findViewById(R.id.button2);
 
         Intent i = getIntent();
         quickblox_id = i.getIntExtra("quickblox_id", 0);
@@ -144,24 +151,30 @@ public class VideoActivity extends AppCompatActivity implements QBRTCClientSessi
         rtcClient.prepareToProcessCalls();
         rtcClient.addSessionCallbacksListener(VideoActivity.this);
 
-        QBRTCTypes.QBConferenceType qbConferenceType = QB_CONFERENCE_TYPE_VIDEO;
+        button2.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                QBRTCTypes.QBConferenceType qbConferenceType = QB_CONFERENCE_TYPE_VIDEO;
 
-        // Initiate opponents list
-        List<Integer> opponents = new ArrayList<Integer>();
-        opponents.add(quickblox_id); //12345 - QBUser ID
+                // Initiate opponents list
+                List<Integer> opponents = new ArrayList<Integer>();
+                opponents.add(quickblox_id); //12345 - QBUser ID
 
-        // Set user information
-        // User can set any string key and value in user info
-        // Then retrieve this data from sessions which is returned in callbacks
-        // and parse them as he wish
-        Map<String, String> userInfo = new HashMap<>();
-        userInfo.put("key", "value");
+                // Set user information
+                // User can set any string key and value in user info
+                // Then retrieve this data from sessions which is returned in callbacks
+                // and parse them as he wish
+                Map<String, String> userInfo = new HashMap<>();
+                userInfo.put("key", "value");
 
-        // Init session
-        QBRTCSession session = QBRTCClient.getInstance(VideoActivity.this).createNewSessionWithOpponents(opponents, qbConferenceType);
+                // Init session
+                QBRTCSession session = QBRTCClient.getInstance(VideoActivity.this).createNewSessionWithOpponents(opponents, qbConferenceType);
 
-        // Start call
-        session.startCall(userInfo);
+                // Start call
+                session.startCall(userInfo);
+            }
+        });
+
+
 
         System.out.println("ON VA APPELER L'UTILISATEUR #" + quickblox_id);
 
